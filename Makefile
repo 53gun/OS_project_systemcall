@@ -79,7 +79,9 @@ OBJDUMP = $(TOOLPREFIX)objdump
 CFLAGS = -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer
 
 # Compatibility with GCC 13 on Ubuntu 24.04
-CFLAGS += -Wno-error=infinite-recursion -Wno-error=array-bounds
+# CFLAGS += -Wno-error=infinite-recursion -Wno-error=array-bounds
+CFLAGS += $(shell $(CC) -Werror=infinite-recursion -E -x c /dev/null >/dev/null 2>&1 && echo -Wno-error=infinite-recursion)
+CFLAGS += $(shell $(CC) -Werror=array-bounds -E -x c /dev/null >/dev/null 2>&1 && echo -Wno-error=array-bounds)
 
 CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
 ASFLAGS = -m32 -gdwarf-2 -Wa,-divide
@@ -185,8 +187,8 @@ UPROGS=\
 	_usertests\
 	_wc\
 	_zombie\
-#	_test_1\
-#	_test_2\
+	_test_1\
+	_test_2\
 
 fs.img: mkfs README.md $(UPROGS)
 	./mkfs fs.img README.md $(UPROGS)
