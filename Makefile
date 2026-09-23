@@ -187,8 +187,10 @@ UPROGS=\
 	_usertests\
 	_wc\
 	_zombie\
-	_test_1\
-	_test_2\
+#	_test_1\
+#	_test_2\
+
+# ( activate tests 1 and 2 when validating your implementation of system calls. )
 
 fs.img: mkfs README.md $(UPROGS)
 	./mkfs fs.img README.md $(UPROGS)
